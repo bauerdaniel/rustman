@@ -1,0 +1,691 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1920"
+   height="1080"
+   viewBox="0 0 1920 1080"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="game_field.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   inkscape:export-filename="maze.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#111111"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     showgrid="false"
+     inkscape:zoom="0.60423544"
+     inkscape:cx="1583.8197"
+     inkscape:cy="512.21755"
+     inkscape:window-width="2967"
+     inkscape:window-height="1232"
+     inkscape:window-x="611"
+     inkscape:window-y="718"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <inkscape:path-effect
+       effect="fillet_chamfer"
+       id="path-effect16009"
+       is_visible="true"
+       lpeversion="1"
+       nodesatellites_param="F,0,0,1,0,5,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,10,0,1 @ F,0,0,1,0,10,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,5,0,1 | F,0,0,1,0,5,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,10,0,1 @ F,0,0,1,0,10,0,1 @ F,0,0,1,0,5,0,1"
+       unit="px"
+       method="auto"
+       mode="F"
+       radius="10"
+       chamfer_steps="1"
+       flexible="false"
+       use_knot_distance="true"
+       apply_no_radius="true"
+       apply_with_radius="true"
+       only_selected="false"
+       hide_knots="false" />
+    <inkscape:path-effect
+       effect="fillet_chamfer"
+       id="path-effect15978"
+       is_visible="true"
+       lpeversion="1"
+       nodesatellites_param="F,0,0,1,0,10,0,1 @ F,0,0,1,0,10,0,1 @ F,0,0,1,0,10,0,1 @ F,0,0,1,0,10,0,1"
+       unit="px"
+       method="auto"
+       mode="F"
+       radius="10"
+       chamfer_steps="1"
+       flexible="false"
+       use_knot_distance="true"
+       apply_no_radius="true"
+       apply_with_radius="true"
+       only_selected="false"
+       hide_knots="false" />
+    <inkscape:path-effect
+       effect="fillet_chamfer"
+       id="path-effect3737"
+       is_visible="true"
+       lpeversion="1"
+       nodesatellites_param="F,0,0,1,0,5,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,10,0,1 @ F,0,0,1,0,10,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,10,0,1 @ F,0,0,1,0,10,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,10,0,1 @ F,0,0,1,0,10,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,10,0,1 @ F,0,0,1,0,10,0,1"
+       unit="px"
+       method="auto"
+       mode="F"
+       radius="5"
+       chamfer_steps="1"
+       flexible="false"
+       use_knot_distance="true"
+       apply_no_radius="true"
+       apply_with_radius="true"
+       only_selected="false"
+       hide_knots="false" />
+    <inkscape:path-effect
+       effect="fillet_chamfer"
+       id="path-effect3735"
+       is_visible="true"
+       lpeversion="1"
+       nodesatellites_param="F,0,0,1,0,10,0,1 @ F,0,0,1,0,10,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,10,0,1 @ F,0,0,1,0,10,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,10,0,1 @ F,0,0,1,0,10,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,5,0,1 @ F,0,0,1,0,10,0,1 @ F,0,0,1,0,10,0,1 @ F,0,0,1,0,5,0,1"
+       unit="px"
+       method="auto"
+       mode="F"
+       radius="5"
+       chamfer_steps="1"
+       flexible="false"
+       use_knot_distance="true"
+       apply_no_radius="true"
+       apply_with_radius="true"
+       only_selected="false"
+       hide_knots="false" />
+    <inkscape:path-effect
+       effect="mirror_symmetry"
+       start_point="960,580"
+       end_point="960,1030"
+       center_point="960,805"
+       id="path-effect3007"
+       is_visible="true"
+       lpeversion="1.2"
+       lpesatellites=""
+       mode="free"
+       discard_orig_path="false"
+       fuse_paths="true"
+       oposite_fuse="false"
+       split_items="false"
+       split_open="false"
+       link_styles="false" />
+    <inkscape:path-effect
+       effect="mirror_symmetry"
+       start_point="960,50"
+       end_point="960,500"
+       center_point="960,275"
+       id="path-effect3005"
+       is_visible="true"
+       lpeversion="1.2"
+       lpesatellites=""
+       mode="free"
+       discard_orig_path="false"
+       fuse_paths="true"
+       oposite_fuse="false"
+       split_items="false"
+       split_open="false"
+       link_styles="false" />
+  </defs>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Background"
+     style="display:inline">
+    <rect
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:3.98845;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="rect13321"
+       width="1916.0115"
+       height="1076.0116"
+       x="1.994229"
+       y="1.994229"
+       inkscape:label="Black Background" />
+  </g>
+  <g
+     inkscape:label="Game Field"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="display:inline">
+    <path
+       style="fill:none;fill-opacity:1;stroke:#1032ea;stroke-width:4;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       d="m 50,60 v 370 a 10,10 45 0 0 10,10 h 175 a 5,5 45 0 1 5,5 v 40 a 5,5 135 0 1 -5,5 H 55 a 5,5 135 0 0 -5,5 5,5 45 0 0 5,5 h 185 a 10,10 135 0 0 10,-10 V 430 A 10,10 45 0 0 240,420 H 65 a 5,5 45 0 1 -5,-5 L 60,65 a 5,5 135 0 1 5,-5 l 890,0 h 900 a 5,5 45 0 1 5,5 v 350 a 5,5 135 0 1 -5,5 h -175 a 10,10 135 0 0 -10,10 v 60 a 10,10 45 0 0 10,10 h 185 a 5,5 135 0 0 5,-5 5,5 45 0 0 -5,-5 h -180 a 5,5 45 0 1 -5,-5 v -40 a 5,5 135 0 1 5,-5 h 175 a 10,10 135 0 0 10,-10 V 60 A 10,10 45 0 0 1860,50 H 965 60 A 10,10 135 0 0 50,60 Z"
+       id="path2929"
+       sodipodi:nodetypes="ccccccccccccc"
+       inkscape:original-d="M 50,490 H 240 V 440 H 50 V 50 H 960 V 60 H 60 v 360 h 190 v 80 H 50 Z"
+       inkscape:path-effect="#path-effect3005;#path-effect3735"
+       class="UnoptimicedTransforms"
+       inkscape:label="Upper Half" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#1032ea;stroke-width:3.81557;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       d="m 50,585 a 5,5 45 0 0 5,5 h 180 a 5,5 45 0 1 5,5 v 40 a 5,5 135 0 1 -5,5 H 60 a 10,10 135 0 0 -10,10 v 370 a 10,10 45 0 0 10,10 h 895 905 a 10,10 135 0 0 10,-10 V 650 a 10,10 45 0 0 -10,-10 l -175,0 a 5,5 45 0 1 -5,-5 v -40 a 5,5 135 0 1 5,-5 h 180 a 5,5 135 0 0 5,-5 5,5 45 0 0 -5,-5 h -185 a 10,10 135 0 0 -10,10 v 50 a 10,10 45 0 0 10,10 h 175 a 5,5 45 0 1 5,5 l 0,360 a 5,5 135 0 1 -5,5 H 965 65 a 5,5 45 0 1 -5,-5 l 0,-360 a 5,5 135 0 1 5,-5 h 175 a 10,10 135 0 0 10,-10 l 0,-50 A 10,10 45 0 0 240,580 H 55 a 5,5 135 0 0 -5,5 z"
+       id="path2929-6"
+       sodipodi:nodetypes="ccccccccccccc"
+       inkscape:path-effect="#path-effect3007;#path-effect3737"
+       inkscape:original-d="m 50,590 h 190 v 50 H 50 v 390 h 910 v -10 H 60 V 650 H 250 V 580 H 50 Z"
+       class="UnoptimicedTransforms"
+       inkscape:label="Bottom Half" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Obstacles">
+    <g
+       aria-label="Daniel"
+       transform="scale(0.93849386,1.0655371)"
+       id="text13415"
+       style="font-weight:bold;font-size:400px;-inkscape-font-specification:'sans-serif, Bold';fill:none;stroke:#1032ea;stroke-width:4.26123;stroke-linejoin:bevel"
+       inkscape:label="Daniel">
+      <path
+         d="m 1623.0313,644.29651 h -59.6 v -304 h 59.6 z"
+         id="path14934"
+         inkscape:label="l" />
+      <path
+         d="m 1417.0314,421.89651 q 45.2,0 71.6,26 26.4,25.6 26.4,73.2 v 28.8 h -140.8 q 0.8,25.2 14.8,39.6 14.4,14.4 39.6,14.4 21.2,0 38.4,-4 17.2,-4.4 35.6,-13.2 v 46 q -16,8 -34,11.6 -17.6,4 -42.8,4 -32.8,0 -58,-12 -25.2,-12.4 -39.6,-37.2 -14.4,-24.8 -14.4,-62.4 0,-38.4 12.8,-63.6 13.2,-25.6 36.4,-38.4 23.2,-12.8 54,-12.8 z m 0.4,42.4 q -17.2,0 -28.8,11.2 -11.2,11.2 -13.2,34.8 h 83.6 q -0.4,-20 -10.4,-32.8 -10,-13.2 -31.2,-13.2 z"
+         id="path14932"
+         inkscape:label="e"
+         style="font-weight:bold;font-size:400px;-inkscape-font-specification:'sans-serif, Bold';display:inline;fill:none;stroke:#1032ea;stroke-width:4.26123;stroke-linejoin:bevel" />
+      <path
+         d="m 1235.0312,340.29651 q 13.2,0 22.8,6.4 9.6,6 9.6,22.8 0,16.4 -9.6,22.8 -9.6,6.4 -22.8,6.4 -13.6,0 -23.2,-6.4 -9.2,-6.4 -9.2,-22.8 0,-16.8 9.2,-22.8 9.6,-6.4 23.2,-6.4 z m 29.6,85.6 v 218.4 h -59.6 v -218.4 z"
+         id="path14930"
+         inkscape:label="i"
+         style="font-weight:bold;font-size:400px;-inkscape-font-specification:'sans-serif, Bold';fill:none;stroke:#1032ea;stroke-width:4.26123;stroke-linejoin:bevel" />
+      <path
+         d="m 1066.2314,421.89651 q 35.2,0 56.4,19.2 21.2,18.8 21.2,60.8 v 142.4 h -59.6 v -127.6 q 0,-23.6 -8.4,-35.2 -8.4,-12 -26.8,-12 -27.2,0 -37.2,18.8 -10,18.4 -10,53.2 v 102.8 h -59.59997 v -218.4 h 45.6 l 8,28 h 3.2 q 10.39997,-16.8 28.39997,-24.4 18.4,-7.6 38.8,-7.6 z"
+         id="path14928"
+         inkscape:label="n"
+         style="font-weight:bold;font-size:400px;-inkscape-font-specification:'sans-serif, Bold';fill:none;stroke:#1032ea;stroke-width:4.26123;stroke-linejoin:bevel" />
+      <path
+         d="m 790.23137,421.49651 q 44,0 67.2,19.2 23.6,18.8 23.6,58 v 145.6 h -41.6 l -11.6,-29.6 h -1.6 q -14,17.6 -29.6,25.6 -15.6,8 -42.8,8 -29.2,0 -48.4,-16.8 -19.2,-17.2 -19.2,-52.4 0,-34.8 24.4,-51.2 24.4,-16.8 73.2,-18.4 l 38,-1.2 v -9.6 q 0,-17.2 -9.2,-25.2 -8.8,-8 -24.8,-8 -16,0 -31.2,4.8 -15.2,4.4 -30.4,11.2 l -19.6,-40.4 q 17.6,-9.2 38.8,-14.4 21.6,-5.2 44.8,-5.2 z m 8.4,122.4 q -28.8,0.8 -40,10.4 -11.2,9.6 -11.2,25.2 0,13.6 8,19.6 8,5.6 20.8,5.6 19.2,0 32.4,-11.2 13.2,-11.6 13.2,-32.4 v -18 z"
+         id="path14926"
+         inkscape:label="a"
+         style="font-weight:bold;font-size:400px;-inkscape-font-specification:'sans-serif, Bold';fill:none;stroke:#1032ea;stroke-width:4.26123;stroke-linejoin:bevel" />
+      <path
+         d="m 591.31996,474.24654 c -0.9323,43.41866 -14.12037,74.17727 -38.29614,97.46478 -1.9887,1.91563 -5.32975,4.8993 -7.46891,6.64522 -25.96143,21.1889 -61.29384,30.95732 -105.99725,31.62733 -2.76108,0.0414 -7.23839,0.0371 -9.99981,0.0371 h -67.93062 a 10,10 45 0 1 -10,-10 l 0,-261.54815 a 10,10 135 0 1 10,-10 h 76.73062 c 2.76142,0 7.23866,-0.004 9.9999,0.0272 25.74957,0.28698 48.4343,2.91823 68.05419,11.33016 2.53774,1.08804 6.56796,3.04359 9.008,4.33617 18.48197,9.79063 33.19946,23.34575 44.15246,40.66537 1.47585,2.33372 3.74376,6.19672 5.04105,8.63412 10.10575,18.9871 16.03792,44.07944 16.69793,70.78157 0.0682,2.76051 0.0679,7.23838 0.009,9.99911 z m -58.65101,-9.99829 c -1.07468,-26.85551 -10.71292,-48.47173 -22.4002,-62.59175 -1.76043,-2.12687 -4.82168,-5.40294 -6.85102,-7.27468 -12.71819,-11.73047 -30.00525,-18.13727 -51.8608,-18.9065 -2.75954,-0.0971 -7.23766,-0.0778 -9.99908,-0.0778 h -26.65376 a 10,10 135 0 0 -10,10 V 553.0963 a 10,10 45 0 0 10,10 h 20.25376 c 2.76142,0 7.23925,0.009 9.99918,-0.078 53.81197,-1.70084 85.80257,-31.20702 87.53713,-88.77208 0.0832,-2.76007 0.0852,-7.2389 -0.0252,-9.99793 z"
+         id="path14924"
+         inkscape:label="D"
+         style="font-weight:bold;font-size:400px;-inkscape-font-specification:'sans-serif, Bold';fill:none;stroke:#1032ea;stroke-width:4;stroke-linejoin:bevel;stroke-dasharray:none"
+         sodipodi:nodetypes="scsccsccsscsccss"
+         inkscape:path-effect="#path-effect16009"
+         inkscape:original-d="m 591.37308,469.24692 c 0,48.26667 -14.54856,81.33074 -42.01523,105.86407 -27.2,24.26667 -65.46667,34.91 -114.8,34.91 H 351.62723 V 328.47284 h 91.73062 c 29.86667,0 55.73333,2.77148 77.6,13.43815 22.13333,10.66667 39.2,26.4 51.2,47.2 12.26667,20.53333 19.21523,49.46926 19.21523,80.13593 z m -58.60454,0 c 0,-31.73333 -11.94402,-56.66926 -25.81069,-71.33593 -13.86667,-14.93333 -34.00021,-22.6059 -60.4,-22.51346 H 404.90409 V 563.0963 h 35.25376 c 58.4,0 92.61069,-31.18271 92.61069,-93.84938 z" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:400px;font-family:sans-serif;-inkscape-font-specification:sans-serif;display:none;fill:none;fill-opacity:1;stroke:#1032ea;stroke-width:4;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       x="456.31058"
+       y="699.55524"
+       id="text13415-4"><tspan
+         sodipodi:role="line"
+         id="tspan13413-8"
+         x="456.31058"
+         y="699.55524"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:400px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:none;fill-opacity:1;stroke:#1032ea;stroke-opacity:1">Daniel</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:400px;display:none;fill:#1032ea;fill-opacity:1;stroke:none;stroke-width:4;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       x="351.86755"
+       y="766.95355"
+       id="text13415-7"><tspan
+         sodipodi:role="line"
+         id="tspan13413-5"
+         x="351.86755"
+         y="766.95355"
+         style="font-size:400px;fill:#1032ea;fill-opacity:1">Daniel</tspan></text>
+    <path
+       style="fill:none;fill-opacity:1;stroke:#1032ea;stroke-width:4;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       d="m 150,890 h 233.50911 a 9.8465497,9.8465497 45.442993 0 1 9.84537,9.9988 l -0.46397,30.0024 A 10.155842,10.155842 135.44299 0 1 382.73588,940 H 150 a 10,10 45 0 1 -10,-10 v -30 a 10,10 135 0 1 10,-10 z"
+       id="path15921"
+       inkscape:label="Obstacle 1"
+       inkscape:path-effect="#path-effect15978"
+       inkscape:original-d="m 140,890 h 253.50911 l -0.77323,50 H 140 Z"
+       sodipodi:nodetypes="ccccc" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="Dots"
+     inkscape:highlight-color="#f0d501"
+     style="display:none">
+    <circle
+       style="fill:#ffaaa4;fill-opacity:1;stroke:none;stroke-width:3.75;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path15758"
+       cx="100"
+       cy="980"
+       inkscape:label="Energizer"
+       r="15" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer5"
+     inkscape:label="Units"
+     inkscape:highlight-color="#008aff"
+     style="display:none">
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041"
+       cx="80"
+       cy="540"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer5-4"
+     inkscape:label="Units"
+     inkscape:highlight-color="#008aff"
+     style="display:inline"
+     transform="translate(1231.1018,-138.49511)">
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-0-0"
+       cx="100"
+       cy="940"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-0-43"
+       cx="100"
+       cy="870"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-0-76"
+       cx="100"
+       cy="800"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-0-7"
+       cx="100"
+       cy="730"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-0-9"
+       cx="100"
+       cy="660"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-0-88"
+       cx="100"
+       cy="590"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-0-8"
+       cx="100"
+       cy="520"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-0"
+       cx="100"
+       cy="380"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-0-4"
+       cx="100"
+       cy="450"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-6"
+       cx="100"
+       cy="310"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-8"
+       cx="100"
+       cy="240"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-3"
+       cx="100"
+       cy="170"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4"
+       cx="-1131.1018"
+       cy="238.49512"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-4"
+       cx="-1061.1018"
+       cy="238.49512"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-4-4"
+       cx="-991.10181"
+       cy="238.49512"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-4-4-7"
+       cx="-921.10181"
+       cy="238.49512"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-4-4-6"
+       cx="-851.10181"
+       cy="238.49512"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-4-4-6-3"
+       cx="-781.10181"
+       cy="238.49512"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-4-4-6-3-1"
+       cx="-711.10181"
+       cy="238.49512"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-4-4-6-3-1-7"
+       cx="-641.10181"
+       cy="238.49512"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-4-4-6-3-1-5"
+       cx="-571.10181"
+       cy="238.49512"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-4-4-6-3-1-33"
+       cx="1780"
+       cy="100"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-4-4-6-3-1-64"
+       cx="1710"
+       cy="100"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-4-4-6-3-1-189"
+       cx="1640"
+       cy="100"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-4-4-6-3-1-83"
+       cx="1570"
+       cy="100"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-4-4-6-3-1-8"
+       cx="1500"
+       cy="100"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-4-4-6-3-1-3"
+       cx="1430"
+       cy="100"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-4-4-6-3-1-75"
+       cx="1360"
+       cy="100"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-4-4-6-3-1-59"
+       cx="1290"
+       cy="100"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-4-4-6-3-1-18"
+       cx="1220"
+       cy="100"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-4-4-6-3-1-4"
+       cx="1150"
+       cy="100"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-4-4-6-3-1-57"
+       cx="1080"
+       cy="100"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-4-4-6-3-1-78"
+       cx="1010"
+       cy="100"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-4-4-6-3-1-1"
+       cx="940"
+       cy="100"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-4-4-6-3-1-2"
+       cx="870"
+       cy="100"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-4-4-6-3-1-6"
+       cx="800"
+       cy="100"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+    <circle
+       style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:3.69093;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path16041-4-4-4-6-3-1-9"
+       cx="730"
+       cy="100"
+       r="30"
+       inkscape:label="Pacman"
+       inkscape:export-filename="./pacman.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(-1231.1018,138.49511)" />
+  </g>
+</svg>
