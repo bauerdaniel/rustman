@@ -2,49 +2,33 @@
 // Daniel Bauer (bauerda@pm.me)
 //
 
+// https://docs.rs/bevy/latest/bevy/index.html
 // https://mbuffett.com/posts/bevy-snake-tutorial/
 
-use bevy::{prelude::*, window::PresentMode, render::color::Color};
+mod maze;
+mod unit;
+mod pacman;
 
-const MAZE_WIDTH: u32 = 1920 * 60;
-const MAZE_HEIGHT: u32 = 1080 * 60;
+use bevy::{
+    prelude::*,
+    window::PresentMode,
+    render::color::Color
+};
 
-#[derive(Component, Clone, Copy, PartialEq, Eq)]
-struct Position {
-    x: i32,
-    y: i32,
-}
+use maze::*;
+use unit::*;
+use pacman::*;
 
-#[derive(Component)]
-struct Size {
-    width: f32,
-    height: f32,
-}
-
-impl Size {
-    pub fn square(x: f32) -> Self {
-        Self { width: x, height: x }
-    }
-}
-
-#[derive(Component)]
-struct Player;
-
-#[derive(Component)]
-struct Enemy;
-
-#[derive(Component)]
-struct UnitColor(String);
+const FIXED_TIMESTEP: f32 = 0.004;
 
 fn main() {
     App::new()
         .insert_resource(ClearColor(Color::BLACK))
-        //.add_plugins(DefaultPlugins)
         .add_plugins(DefaultPlugins
             .set(WindowPlugin {
                 primary_window: Some(Window {
                     title: "Rustman".into(),
-                    resolution: (1920., 1080.).into(),
+                    resolution: (1280., 426.).into(),
                     present_mode: PresentMode::AutoVsync,
                     fit_canvas_to_parent: true,
                     prevent_default_event_handling: false,
@@ -52,103 +36,30 @@ fn main() {
                 }),
                 ..default()})
             .set(ImagePlugin::default_nearest()))
-        .add_startup_system(setup)
-        .add_system(player_movement)
-        .add_system(position_translation)
-        .add_system(size_scaling)
-        //.add_systems((
-        //    position_translation,
-        //    size_scaling))
+        // Setup
+        .add_startup_systems((
+            setup_camera,
+            setup_maze,
+            spawn_pacman,
+            spawn_dots
+        ))
+        // Scaling
+        .add_systems((
+            position_translation,
+            size_scaling
+        ))
+        // Player Movement
+        .add_system(pacman_movement_input.before(pacman_movement))
+        .add_system(pacman_movement.in_schedule(CoreSchedule::FixedUpdate))
+        .insert_resource(FixedTime::new_from_secs(FIXED_TIMESTEP))
         .run();
 }
 
-fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
-    setup_camera(&mut commands);
-    setup_maze(&mut commands, &asset_server);
-    add_player(&mut commands, &asset_server);
-    add_enemies(&mut commands);
-}
-
-fn setup_camera(commands: &mut Commands) {
+fn setup_camera(mut commands: Commands) {
     commands.spawn(Camera2dBundle::default());
 }
 
-fn setup_maze(commands: &mut Commands, asset_server: &Res<AssetServer>) {
-    commands.spawn(SpriteBundle {
-        texture: asset_server.load("maze.png"),
-        ..default()
-    });
-}
-
-fn add_player(commands: &mut Commands, asset_server: &Res<AssetServer>) {
-    commands
-        .spawn((
-            Player,
-            SpriteBundle {
-                texture: asset_server.load("pacman.png"),
-                ..default()
-            },
-            Position { x: 3, y: 3 },
-            Size::square(60.)
-        ));
-}
-
-fn add_enemies(commands: &mut Commands) {
-    commands.spawn((Enemy, UnitColor("Red".to_string())));
-    commands.spawn((Enemy, UnitColor("Pink".to_string())));
-    commands.spawn((Enemy, UnitColor("Light Blue".to_string())));
-    commands.spawn((Enemy, UnitColor("Orange".to_string())));
-}
-
-//fn do_something(query: Query<&UnitColor, With<Enemy>>) {
-//    for color in &query {
-//        println!("hello {}!", color.0);
-//    }
-//}
-
-/*
-fn player_movement(
-    keyboard_input: Res<Input<KeyCode>>,
-    mut head_positions: Query<&mut Transform, With<Player>>,
-) {
-    for mut transform in head_positions.iter_mut() {
-        if keyboard_input.pressed(KeyCode::Left) {
-            transform.translation.x -= 2.;
-        }
-        if keyboard_input.pressed(KeyCode::Right) {
-            transform.translation.x += 2.;
-        }
-        if keyboard_input.pressed(KeyCode::Down) {
-            transform.translation.y -= 2.;
-        }
-        if keyboard_input.pressed(KeyCode::Up) {
-            transform.translation.y += 2.;
-        }
-    }
-}
-*/
-
-fn player_movement(
-    keyboard_input: Res<Input<KeyCode>>,
-    mut head_positions: Query<&mut Position, With<Player>>,
-) {
-    for mut pos in head_positions.iter_mut() {
-        if keyboard_input.pressed(KeyCode::Left) {
-            pos.x -= 1;
-        }
-        if keyboard_input.pressed(KeyCode::Right) {
-            pos.x += 1;
-        }
-        if keyboard_input.pressed(KeyCode::Down) {
-            pos.y -= 1;
-        }
-        if keyboard_input.pressed(KeyCode::Up) {
-            pos.y += 1;
-        }
-    }
-}
-
-fn size_scaling(mut windows: Query<&mut Window>, mut q: Query<(&Size, &mut Transform)>) {
+fn size_scaling(mut windows: Query<&mut Window>, mut q: Query<(&UnitSize, &mut Transform)>) {
     let window = windows.single_mut();
     for (sprite_size, mut transform) in q.iter_mut() {
         transform.scale = Vec3::new(
@@ -159,7 +70,7 @@ fn size_scaling(mut windows: Query<&mut Window>, mut q: Query<(&Size, &mut Trans
     }
 }
 
-fn position_translation(mut windows: Query<&mut Window>, mut q: Query<(&Position, &mut Transform)>) {
+fn position_translation(mut windows: Query<&mut Window>, mut q: Query<(&UnitPosition, &mut Transform)>) {
     fn convert(pos: f32, bound_window: f32, bound_game: f32) -> f32 {
         let tile_size = bound_window / bound_game;
         pos / bound_game * bound_window - (bound_window / 2.) + (tile_size / 2.)
