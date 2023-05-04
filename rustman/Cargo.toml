@@ -8,3 +8,16 @@ authors = ["Daniel Bauer <bauerda@pm.me>"]
 
 [dependencies]
 bevy = "0.10.1"
+
+# Enable max optimizations for dependencies, but not for our code:
+[profile.dev.package."*"]
+opt-level = 3
+
+[profile.release]
+lto = "fat"
+
+[profile.wasm-release]
+inherits = "release"
+opt-level = "z"
+lto = "fat"
+codegen-units = 1

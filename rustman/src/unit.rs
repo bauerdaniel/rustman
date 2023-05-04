@@ -24,6 +24,7 @@ pub struct UnitPosition {
 
 #[derive(PartialEq, Copy, Clone)]
 pub enum UnitDirection {
+    None,
     Left,
     Up,
     Right,
