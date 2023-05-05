@@ -3,15 +3,12 @@
 //
 
 use bevy::prelude::*;
-use bevy::sprite::collide_aabb::collide;
+
 use super::unit::*;
 use super::collision::*;
-use super::game::*;
-use super::maze::*;
-//use super::game_state::*;
+use super::game_state::*;
 
 const PACMAN_SPEED: f32 = 0.0025;
-const PACMAN_SIZE: u32 = 100;
 
 pub struct PacmanPlugin;
 
@@ -19,10 +16,10 @@ impl Plugin for PacmanPlugin {
     fn build(&self, app: &mut App) {
         app
             .insert_resource(FixedTime::new_from_secs(PACMAN_SPEED))
+            .add_startup_system(spawn_pacman)
             .add_systems((
                 pacman_movement_input.before(pacman_movement),
                 pacman_movement.in_schedule(CoreSchedule::FixedUpdate),
-                pacman_eats_dot.after(pacman_movement)
             ))
         ;
     }
@@ -51,17 +48,18 @@ pub fn spawn_pacman(
         .spawn((
             Pacman {
                 current_direction: UnitDirection::Left,
-                next_direction: UnitDirection::None,
+                next_direction: UnitDirection::Left,
                 eaten_ghosts: 0,
                 animation_count: 0,
             },
+            UnitName("Pacman".to_string()),
+            UnitPosition { x: 1380, y: 150 },
+            UnitSize::square(0.95),
             SpriteSheetBundle {
                 texture_atlas: texture_atlas_handle,
                 sprite: TextureAtlasSprite::new(0),
                 ..default()
             },
-            UnitPosition { x: 1380, y: 150 },
-            UnitSize::square(0.9)
         ));
 }
 
@@ -80,31 +78,9 @@ pub fn pacman_movement_input(keyboard_input: Res<Input<KeyCode>>, mut q: Query<&
 }
 
 pub fn pacman_movement(
-    //game_state: Res<GameState>,
+    state: Res<State<GameState>>,
     mut q: Query<(&mut Pacman, &mut UnitPosition, &mut TextureAtlasSprite, &mut Transform)>,
 ) {
-    fn try_move(dir: &UnitDirection, pos: &mut UnitPosition) -> bool {
-        let mut new_pos = pos.clone();
-        
-        match dir {
-            UnitDirection::Left => new_pos.x -= 1,
-            UnitDirection::Right => new_pos.x += 1,
-            UnitDirection::Up => new_pos.y += 1,
-            UnitDirection::Down => new_pos.y -= 1,
-            _ => {}
-        };
-
-        let can_move = check_in_map(new_pos.x, new_pos.y, PACMAN_SIZE)
-            && !check_for_collisions(new_pos.x, new_pos.y, PACMAN_SIZE);
-
-        if can_move {
-            pos.x = new_pos.x;
-            pos.y = new_pos.y;
-        }
-
-        can_move
-    }
-
     fn animate(
         mut pacman: Mut<Pacman>,
         mut sprite: Mut<TextureAtlasSprite>,
@@ -125,49 +101,21 @@ pub fn pacman_movement(
         pacman.animation_count = 0;
     }
 
+    if state.0 != GameState::Running { return; }
+
     if let Some((
         mut pacman,
         mut pos,
         sprite,
         transform,
     )) = q.iter_mut().next() {
-        if pacman.next_direction == UnitDirection::None { return; }
-
-        if try_move(&pacman.next_direction, &mut pos) {
+        if unit_can_move_in_direction(&pos, pacman.next_direction) {
             pacman.current_direction = pacman.next_direction;
+            pos.move_in_direction(pacman.current_direction);
             animate(pacman, sprite, transform);
-        } else {
-            if try_move(&pacman.current_direction, &mut pos) {
-                animate(pacman, sprite, transform);
-            }
-        }
-    }
-}
-
-pub fn pacman_eats_dot(
-    mut commands: Commands,
-    mut game: ResMut<Game>,
-    mut q_p: Query<(&mut Pacman, &Transform)>,
-    q_d: Query<(Entity, &Transform), With<Dot>>,
-    asset_server: Res<AssetServer>,
-    audio: Res<Audio>,
-) {
-    if let Some((mut pacman, pac_pos)) = q_p.iter_mut().next() {
-        for (dot_entity, dot_pos) in q_d.iter() {
-            if let Some(_) = collide(pac_pos.translation, Vec2 { x: 2., y: 2. }, dot_pos.translation, Vec2 { x: 2., y: 2. }) {
-                
-                pacman.eaten_ghosts += 1;
-                game.points += 10;
-                commands.entity(dot_entity).despawn();
-
-                if pacman.eaten_ghosts % 2 == 0 {
-                    let music = asset_server.load("sounds/eat2.ogg");
-                    audio.play(music);
-                } else {
-                    let music = asset_server.load("sounds/eat.ogg");
-                    audio.play(music);
-                }
-            }
+        } else if unit_can_move_in_direction(&pos, pacman.current_direction) {
+            pos.move_in_direction(pacman.current_direction);
+            animate(pacman, sprite, transform);
         }
     }
 }

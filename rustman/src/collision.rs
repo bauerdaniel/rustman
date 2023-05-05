@@ -3,7 +3,10 @@
 //
 
 use bevy::prelude::*;
+use bevy::sprite::collide_aabb::collide;
+
 use super::maze::*;
+use super::unit::*;
 
 const MAZE_START_X: u32 = 100;
 const MAZE_END_X: u32 = MAZE_WIDTH - 100;
@@ -82,4 +85,30 @@ pub fn check_for_collisions(x: i32, y: i32, size: u32) -> bool {
         }
     }
     false
+}
+
+pub fn unit_can_move(pos: &UnitPosition) -> bool {
+    check_in_map(pos.x, pos.y, UNIT_SIZE)
+        && !check_for_collisions(pos.x, pos.y, UNIT_SIZE)
+}
+
+pub fn unit_can_move_in_direction(
+    current_pos: &UnitPosition,
+    direction: UnitDirection,
+) -> bool {
+    let mut new_pos = current_pos.clone();
+    new_pos.move_in_direction(direction);
+    unit_can_move(&new_pos)
+}
+
+pub fn units_collide(a_pos: &UnitPosition, a_size: i32, b_pos: &UnitPosition, b_size: i32) -> bool {
+    if let Some(_) = collide(
+        a_pos.to_vec3(),
+        Vec2 { x: a_size as f32, y: a_size as f32 },
+        b_pos.to_vec3(),
+        Vec2 { x: b_size as f32, y: b_size as f32}) {
+        true
+    } else {
+        false
+    }
 }

@@ -8,6 +8,7 @@ authors = ["Daniel Bauer <bauerda@pm.me>"]
 
 [dependencies]
 bevy = "0.10.1"
+rand = "0.8.5"
 
 # Enable max optimizations for dependencies, but not for our code:
 [profile.dev.package."*"]
