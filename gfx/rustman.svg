@@ -8,7 +8,7 @@
    version="1.1"
    id="svg5"
    sodipodi:docname="rustman_gen.svg"
-   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   inkscape:version="1.2.2 (b0a8486, 2022-12-01)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -24,15 +24,15 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="px"
      showgrid="false"
-     inkscape:zoom="0.94698068"
-     inkscape:cx="971.50873"
-     inkscape:cy="479.94643"
-     inkscape:window-width="2672"
-     inkscape:window-height="1370"
-     inkscape:window-x="26"
-     inkscape:window-y="23"
+     inkscape:zoom="0.89848973"
+     inkscape:cx="1496.4"
+     inkscape:cy="1379.5372"
+     inkscape:window-width="2560"
+     inkscape:window-height="1317"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
      inkscape:window-maximized="0"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer4"
      showguides="true">
     <sodipodi:guide
        position="1698.0283,2338.7871"
@@ -1344,7 +1344,6 @@
      id="layer4"
      inkscape:label="Player"
      style="display:inline"
-     sodipodi:insensitive="true"
      inkscape:highlight-color="#fffb00">
     <circle
        style="display:none;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:5.5577;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -1465,12 +1464,44 @@
        cy="1083.33"
        inkscape:label="path11167"
        r="50" />
-    <circle
+    <path
        style="display:inline;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:5.5577;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="circle5802"
+       id="circle977"
+       inkscape:label="Pacman 3"
+       sodipodi:type="arc"
+       sodipodi:cx="1383.33"
+       sodipodi:cy="1083.33"
+       sodipodi:rx="50"
+       sodipodi:ry="50"
+       sodipodi:start="3.8397244"
+       sodipodi:end="2.443461"
+       sodipodi:arc-type="slice"
+       d="m 1345.0277,1051.1906 a 50,50 0 0 1 55.4033,-14.8453 50,50 0 0 1 32.899,46.9847 50,50 0 0 1 -32.899,46.9846 50,50 0 0 1 -55.4033,-14.8453 L 1383.33,1083.33 Z"
+       inkscape:export-filename="pacman3.png"
+       inkscape:export-xdpi="95.767494"
+       inkscape:export-ydpi="95.767494" />
+    <path
+       style="display:none;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:5.5577;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path2337"
+       inkscape:label="Pacman 2"
+       sodipodi:type="arc"
+       sodipodi:cx="1383.33"
+       sodipodi:cy="1083.33"
+       sodipodi:rx="50"
+       sodipodi:ry="50"
+       sodipodi:start="3.4906585"
+       sodipodi:end="2.7925268"
+       sodipodi:arc-type="slice"
+       d="m 1336.3453,1066.2289 a 50,50 0 0 1 55.6671,-32.1393 50,50 0 0 1 41.3176,49.2404 50,50 0 0 1 -41.3176,49.2403 50,50 0 0 1 -55.6671,-32.1393 l 46.9847,-17.101 z"
+       inkscape:export-filename="pacman2.png"
+       inkscape:export-xdpi="95.767494"
+       inkscape:export-ydpi="95.767494" />
+    <circle
+       style="display:none;fill:#fffb00;fill-opacity:1;stroke:none;stroke-width:5.5577;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="circle2275"
        cx="1383.33"
        cy="1083.33"
-       inkscape:label="Pacman"
+       inkscape:label="Pacman 1"
        r="50" />
   </g>
   <g

@@ -22,14 +22,13 @@ use bevy::{
 use game::*;
 use game_state::GameStatePlugin;
 use maze::*;
-use pacman::*;
 use unit::*;
 use ui::UiPlugin;
 
 pub const GAME_WIDTH: u32 = MAZE_WIDTH;
 pub const GAME_HEIGHT: u32 = MAZE_HEIGHT;
 
-const FIXED_TIMESTEP: f32 = 0.0025;
+
 
 fn main() {
     App::new()
@@ -62,9 +61,6 @@ fn main() {
             size_scaling,
             
         ))
-        
-        // Debug
-        .add_event::<CursorMoved>().add_system(cursor_events)
         .run();
 }
 
@@ -120,28 +116,6 @@ fn position_translation(mut windows: Query<&mut Window>, mut q: Query<(&UnitPosi
             convert(pos.x as f32, scaled_width as f32, GAME_WIDTH as f32),
             convert(pos.y as f32, scaled_height, GAME_HEIGHT as f32),
             0.0,
-        );
-    }
-}
-
-fn cursor_events(
-    mut cursor_evr: EventReader<CursorMoved>,
-) {
-    let window_width: f32 = 1280.;
-    let window_height: f32 = 426.;
-
-    let maze_width = GAME_WIDTH as f32;
-    let maze_height = GAME_HEIGHT as f32;
-
-    for ev in cursor_evr.iter() {
-        let (mouse_x, mouse_y) = (ev.position.x, ev.position.y);
-
-        let scaled_x = mouse_x / window_width * maze_width;
-        let scaled_y = mouse_y / window_height * maze_height;
-
-        println!(
-            "New cursor position: X: {}, Y: {} (X: {}, Y: {})",
-            ev.position.x, ev.position.y, scaled_x, scaled_y
         );
     }
 }

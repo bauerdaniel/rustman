@@ -21,7 +21,7 @@ pub struct Dot;
 pub fn setup_maze(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn((
         SpriteBundle {
-            texture: asset_server.load("maze.png"),
+            texture: asset_server.load("graphics/maze.png"),
             ..default()
         },
         UnitPosition { x: (MAZE_WIDTH / 2) as i32, y: (MAZE_HEIGHT / 2) as i32 },
