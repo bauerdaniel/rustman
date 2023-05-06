@@ -7,30 +7,44 @@ use bevy::prelude::*;
 use super::unit::*;
 use super::collision::*;
 use super::game_state::*;
+use super::ghosts::*;
 
-const PACMAN_SPEED: f32 = 0.0025;
+const PACMAN_SPEED: f32 = 400.;
 
 pub struct PacmanPlugin;
 
 impl Plugin for PacmanPlugin {
     fn build(&self, app: &mut App) {
         app
-            .insert_resource(FixedTime::new_from_secs(PACMAN_SPEED))
+            .add_state::<PacmanState>()
+            //.insert_resource(FixedTime::new_from_secs(PACMAN_SPEED))
             .add_startup_system(spawn_pacman)
             .add_systems((
                 pacman_movement_input.before(pacman_movement),
-                pacman_movement.in_schedule(CoreSchedule::FixedUpdate),
+                pacman_movement,//.in_schedule(CoreSchedule::FixedUpdate),
+                pacman_energized.in_set(OnUpdate(PacmanState::Energized)),
+                on_pacman_state_normal.in_schedule(OnEnter(PacmanState::Normal)),
             ))
         ;
     }
+}
+
+#[derive(Debug, Clone, Copy, Default, Eq, PartialEq, Hash, States)]
+pub enum PacmanState {
+    #[default]
+    Normal,
+    Energized,
 }
 
 #[derive(Component)]
 pub struct Pacman {
     pub current_direction: UnitDirection,
     pub next_direction: UnitDirection,
+    pub eaten_points: u32,
     pub eaten_ghosts: u32,
     pub animation_count: u32,
+    pub start_time_energized: f32,
+    pub sound_play_count: u32,
 }
 
 pub fn spawn_pacman(
@@ -49,8 +63,11 @@ pub fn spawn_pacman(
             Pacman {
                 current_direction: UnitDirection::Left,
                 next_direction: UnitDirection::Left,
+                eaten_points: 0,
                 eaten_ghosts: 0,
                 animation_count: 0,
+                start_time_energized: 0.,
+                sound_play_count: 0,
             },
             UnitName("Pacman".to_string()),
             UnitPosition { x: 1380, y: 150 },
@@ -79,12 +96,13 @@ pub fn pacman_movement_input(keyboard_input: Res<Input<KeyCode>>, mut q: Query<&
 
 pub fn pacman_movement(
     state: Res<State<GameState>>,
-    mut q: Query<(&mut Pacman, &mut UnitPosition, &mut TextureAtlasSprite, &mut Transform)>,
+    mut query_pacman: Query<(&mut Pacman, &mut UnitPosition, &mut TextureAtlasSprite, &mut Transform)>,
+    time: Res<Time>,
 ) {
     fn animate(
-        mut pacman: Mut<Pacman>,
-        mut sprite: Mut<TextureAtlasSprite>,
-        mut transform: Mut<Transform>,
+        pacman: &mut Mut<Pacman>,
+        sprite: &mut Mut<TextureAtlasSprite>,
+        transform: &mut Mut<Transform>,
     ) {
         pacman.animation_count += 1;
         if pacman.animation_count % 30 != 0 { return; }
@@ -106,16 +124,52 @@ pub fn pacman_movement(
     if let Some((
         mut pacman,
         mut pos,
-        sprite,
-        transform,
-    )) = q.iter_mut().next() {
-        if unit_can_move_in_direction(&pos, pacman.next_direction) {
-            pacman.current_direction = pacman.next_direction;
+        mut sprite,
+        mut transform,
+    )) = query_pacman.iter_mut().next() {
+        // Move pacman forward
+        let pixel_speed = (time.delta_seconds() * PACMAN_SPEED )as i32;
+        for _ in 0..pixel_speed {
+            if unit_can_move_in_direction(&pos, pacman.next_direction) {
+                pacman.current_direction = pacman.next_direction;
+                //pos.move_in_direction(pacman.current_direction);
+                //animate(pacman, sprite, transform);
+            } else if unit_can_move_in_direction(&pos, pacman.current_direction) {
+                //pos.move_in_direction(pacman.current_direction);
+                //animate(pacman, sprite, transform);
+            } else {
+                break;
+            }
             pos.move_in_direction(pacman.current_direction);
-            animate(pacman, sprite, transform);
-        } else if unit_can_move_in_direction(&pos, pacman.current_direction) {
-            pos.move_in_direction(pacman.current_direction);
-            animate(pacman, sprite, transform);
+            animate(&mut pacman, &mut sprite, &mut transform);
         }
     }
+}
+
+fn pacman_energized(
+    time: Res<Time>,
+    mut query_pacman: Query<&mut Pacman>,
+    mut next_pacman_state: ResMut<NextState<PacmanState>>,
+    asset_server: Res<AssetServer>,
+    audio: Res<Audio>,
+) {
+    let mut pacman = query_pacman.single_mut();
+    
+    let elapsed_since_energized = time.elapsed_seconds() - pacman.start_time_energized;
+    
+    if elapsed_since_energized > 10. {
+        next_pacman_state.set(PacmanState::Normal);
+    }
+    else if elapsed_since_energized > 0.50 * pacman.sound_play_count as f32 {
+        audio.play(asset_server.load("sounds/ambient_fright.ogg"));
+        pacman.sound_play_count += 1;
+    }    
+}
+
+fn on_pacman_state_normal(
+    mut query_ghosts: Query<&mut Ghost>,
+) {
+   for mut ghost in query_ghosts.iter_mut() {
+        ghost.is_frightened = false;
+   } 
 }

@@ -17,6 +17,7 @@ Light Blue #2ffbfd
 Pink #ffa1cd  
 Orange #ffcc00  
 Red #ff3100  
+Dark Blue #0e3bf4  
 
 Pacman #fffb00  
 

@@ -28,14 +28,16 @@ impl Plugin for GameStatePlugin {
             .add_systems((
                 on_game_state_running,
             ).in_schedule(OnEnter(GameState::Running)))
-
         ;
     }
 }
 
-fn switch_state_to_running(time: Res<Time>, mut state: ResMut<NextState<GameState>>) {
+fn switch_state_to_running(
+    time: Res<Time>,
+    mut next_state: ResMut<NextState<GameState>>,
+) {
     if time.elapsed_seconds() > 5. {
-        state.set(GameState::Running);
+        next_state.set(GameState::Running);
     }
 }
 
@@ -50,7 +52,7 @@ fn on_game_state_running() {
 
 fn play_start_music(
     asset_server: Res<AssetServer>,
-    audio: Res<Audio>
+    audio: Res<Audio>,
 ) {
     let music = asset_server.load("sounds/start.ogg");
     audio.play(music);

@@ -14,7 +14,7 @@ Pac-Man clone written in Rust.
 #### Ubuntu 23.04
 
 ```
-$ sudo apt install librust-alsa-sys-dev libudev-dev
+$ sudo apt install librust-alsa-sys-dev libudev-dev libssl-dev
 ```
 
 ## Build & Run

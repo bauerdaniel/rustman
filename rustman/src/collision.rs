@@ -13,6 +13,10 @@ const MAZE_END_X: u32 = MAZE_WIDTH - 100;
 const MAZE_START_Y: u32 = 100;
 const MAZE_END_Y: u32 = MAZE_HEIGHT - 100;
 
+const TUNNEL_Y: i32 = 616;
+const TUNNEL_X_LEFT: i32 = 0;
+const TUNNEL_X_RIGHT: i32 = MAZE_WIDTH as i32;
+
 const OBSTACLES: [Rect; 28] = [
     
     Rect { x: 1133, y: 100, w: 100, h: 133 }, // Spike 1
@@ -78,6 +82,10 @@ pub fn check_in_map(x: i32, y: i32, size: u32) -> bool {
         && y - offset >= MAZE_START_Y as i32 && y + offset <= MAZE_END_Y as i32
 }
 
+fn check_in_tunnel(x: i32, y: i32) -> bool {
+    y == TUNNEL_Y
+}
+
 pub fn check_for_collisions(x: i32, y: i32, size: u32) -> bool {
     for obstacle in OBSTACLES.iter() {
         if obstacle.collide(x, y, size) {
@@ -88,7 +96,7 @@ pub fn check_for_collisions(x: i32, y: i32, size: u32) -> bool {
 }
 
 pub fn unit_can_move(pos: &UnitPosition) -> bool {
-    check_in_map(pos.x, pos.y, UNIT_SIZE)
+    (check_in_map(pos.x, pos.y, UNIT_SIZE) || check_in_tunnel(pos.x, pos.y))
         && !check_for_collisions(pos.x, pos.y, UNIT_SIZE)
 }
 
@@ -110,5 +118,15 @@ pub fn units_collide(a_pos: &UnitPosition, a_size: i32, b_pos: &UnitPosition, b_
         true
     } else {
         false
+    }
+}
+
+pub fn teleport_tunnel(pos: &mut UnitPosition) {
+    if pos.y == TUNNEL_Y {
+        if pos.x == TUNNEL_X_LEFT {
+            pos.x = TUNNEL_X_RIGHT;
+        } else if pos.x == TUNNEL_X_RIGHT {
+            pos.x = TUNNEL_X_LEFT;
+        }
     }
 }

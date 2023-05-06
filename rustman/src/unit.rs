@@ -5,6 +5,8 @@
 use bevy::prelude::*;
 use rand::Rng;
 
+use super::collision::*;
+
 pub const UNIT_SIZE: u32 = 100;
 
 #[derive(Component)]
@@ -38,6 +40,18 @@ impl UnitPosition {
             UnitDirection::Right => self.x += 1,
             UnitDirection::Up => self.y += 1,
             UnitDirection::Down => self.y -= 1,
+            _ => {}
+        };
+
+        teleport_tunnel(self);
+    }
+
+    pub fn move_in_direction_with_value(&mut self, direction: UnitDirection, value: i32) {
+        match direction {
+            UnitDirection::Left => self.x -= value,
+            UnitDirection::Right => self.x += value,
+            UnitDirection::Up => self.y += value,
+            UnitDirection::Down => self.y -= value,
             _ => {}
         };
     }
