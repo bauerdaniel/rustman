@@ -44,8 +44,7 @@ fn spawn_ghosts(
 ) {
     let texture_handle = asset_server.load("sprites/ghosts.png");
     let texture_atlas = TextureAtlas::from_grid(
-        texture_handle, Vec2::new(100.0, 100.0), 2, 4, None, None
-    );
+        texture_handle, Vec2::new(UNIT_SIZE as f32, UNIT_SIZE as f32), 2, 4, None, None);
     let texture_atlas_handle = texture_atlases.add(texture_atlas);
 
     for (i, name) in GHOST_NAMES.iter().enumerate() {
@@ -57,7 +56,7 @@ fn spawn_ghosts(
             UnitName(name.to_string()),
             //UnitPosition { x: 1213 + (i * 110) as i32, y: 613 },
             UnitPosition { x: 1213 + (i * 110) as i32, y: 883 },
-            UnitSize::square(0.95),
+            UnitScale::square(0.95),
             SpriteSheetBundle {
                 texture_atlas: texture_atlas_handle.clone(),
                 sprite: TextureAtlasSprite::new(i * 2),

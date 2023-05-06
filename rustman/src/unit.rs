@@ -14,12 +14,12 @@ pub struct UnitName(pub String);
 //pub struct UnitColor(String);
 
 #[derive(Component)]
-pub struct UnitSize {
+pub struct UnitScale {
     pub width: f32,
     pub height: f32,
 }
 
-impl UnitSize {
+impl UnitScale {
     pub fn square(x: f32) -> Self {
         Self { width: x, height: x }
     }

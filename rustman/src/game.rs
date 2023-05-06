@@ -20,7 +20,7 @@ impl Plugin for GamePlugin {
             })
             .add_startup_systems((
                 setup_maze,
-                spawn_dots
+                spawn_points
             ))
             .add_plugin(PacmanPlugin)
             .add_plugin(GhostsPlugin)

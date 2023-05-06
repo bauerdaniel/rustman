@@ -3,7 +3,6 @@
 //
 
 use bevy::prelude::*;
-use bevy::sprite::collide_aabb::collide;
 
 use super::collision::*;
 use super::game::*;
@@ -35,7 +34,7 @@ fn pacman_eats_point(
     if let Some((mut pacman, pac_pos)) = query_pacman.iter_mut().next() {
         for (dot_entity, dot_pos) in query_dot.iter() {
 
-            if units_collide(&pac_pos, 100, &dot_pos, 1) {
+            if units_collide(&pac_pos, 10, &dot_pos, 10) {
                 pacman.eaten_ghosts += 1;
                 game.points += 10;
                 commands.entity(dot_entity).despawn();
@@ -54,7 +53,7 @@ pub fn ghost_eats_pacman(
 ) {
     if let Some((mut pacman, pac_pos)) = query_pacman.iter_mut().next() {
         for (ghost_entity, ghost, ghost_pos) in query_ghost.iter_mut() {
-            if units_collide(&pac_pos, 100, &ghost_pos, 100) {
+            if units_collide(&pac_pos, 10, &ghost_pos, 10) {
                 next_state.set(GameState::GameOver);
             }
         }

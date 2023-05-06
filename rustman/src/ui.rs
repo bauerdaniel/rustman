@@ -7,6 +7,8 @@ use bevy::prelude::*;
 use super::game_state::*;
 use super::game::*;
 
+pub const UI_HEIGHT: u32 = 100;
+
 pub struct UiPlugin;
 
 impl Plugin for UiPlugin {

@@ -40,8 +40,8 @@ pub fn spawn_pacman(
 ) {
 
     let texture_handle = asset_server.load("sprites/pacman.png");
-    let texture_atlas =
-        TextureAtlas::from_grid(texture_handle, Vec2::new(100.0, 100.0), 3, 1, None, None);
+    let texture_atlas = TextureAtlas::from_grid(
+        texture_handle, Vec2::new(UNIT_SIZE as f32, UNIT_SIZE as f32), 3, 1, None, None);
     let texture_atlas_handle = texture_atlases.add(texture_atlas);
 
     commands
@@ -54,7 +54,7 @@ pub fn spawn_pacman(
             },
             UnitName("Pacman".to_string()),
             UnitPosition { x: 1380, y: 150 },
-            UnitSize::square(0.95),
+            UnitScale::square(0.95),
             SpriteSheetBundle {
                 texture_atlas: texture_atlas_handle,
                 sprite: TextureAtlasSprite::new(0),

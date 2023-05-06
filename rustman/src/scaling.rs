@@ -6,9 +6,7 @@ use bevy::prelude::*;
 
 use super::unit::*;
 use super::maze::*;
-
-pub const GAME_WIDTH: u32 = MAZE_WIDTH;
-pub const GAME_HEIGHT: u32 = MAZE_HEIGHT;
+use super::ui::UI_HEIGHT;
 
 pub struct ScalingPlugin;
 
@@ -23,23 +21,13 @@ impl Plugin for ScalingPlugin {
     }
 }
 
-fn size_scaling(mut windows: Query<&mut Window>, mut q: Query<(&UnitSize, &mut Transform)>) {
-    let window = windows.single_mut();
-    for (sprite_size, mut transform) in q.iter_mut() {
-        
-        let height = window.height() as f32 - 100.;
-
-        let scaling_factor_x = window.width() as f32 / GAME_WIDTH as f32;
-        let scaling_factor_y = height as f32 / GAME_HEIGHT as f32;
-        let mut scaling_factor = scaling_factor_x;
-
-        if GAME_HEIGHT as f32 * scaling_factor > height {
-            scaling_factor = scaling_factor_y;
-        }
-
-        //let new_width = sprite_size.width / GAME_WIDTH as f32 * window.width() as f32;
-        //let new_height = sprite_size.height / GAME_HEIGHT as f32 * window.height() as f32;
-
+fn size_scaling(
+    mut query_window: Query<&mut Window>,
+    mut query_scale: Query<(&UnitScale, &mut Transform)>
+) {
+    let window = query_window.single_mut();
+    for (sprite_size, mut transform) in query_scale.iter_mut() {
+        let scaling_factor = calc_scaling_factor(window.width(), window.height());
         transform.scale = Vec3::new(
             sprite_size.width * scaling_factor,
             sprite_size.height * scaling_factor,
@@ -48,29 +36,33 @@ fn size_scaling(mut windows: Query<&mut Window>, mut q: Query<(&UnitSize, &mut T
     }
 }
 
-fn position_translation(mut windows: Query<&mut Window>, mut q: Query<(&UnitPosition, &mut Transform)>) {
+fn position_translation(
+    mut query_window: Query<&mut Window>,
+    mut query_pos: Query<(&UnitPosition, &mut Transform)>,
+) {
     fn convert(pos: f32, bound_window: f32, bound_game: f32) -> f32 {
         let tile_size = bound_window / bound_game;
         pos / bound_game * bound_window - (bound_window / 2.) + (tile_size / 2.)
     }
-    let window = windows.single_mut();
 
-    let height = window.height() as f32 - 100.;
+    let window = query_window.single_mut();
+    let scaling_factor = calc_scaling_factor(window.width(), window.height());
+    let scaled_width = MAZE_WIDTH as f32 * scaling_factor; 
+    let scaled_height = MAZE_HEIGHT as f32 * scaling_factor;
 
-    let scaling_factor_x = window.width() as f32 / GAME_WIDTH as f32;
-    let scaling_factor_y = height / GAME_HEIGHT as f32;
-    let mut scaling_factor = scaling_factor_x;
-
-    if GAME_HEIGHT as f32 * scaling_factor > height {
-        scaling_factor = scaling_factor_y;
-    }
-    let scaled_width = GAME_WIDTH as f32 * scaling_factor; 
-    let scaled_height = GAME_HEIGHT as f32 * scaling_factor; 
-    for (pos, mut transform) in q.iter_mut() {
+    for (pos, mut transform) in query_pos.iter_mut() {
         transform.translation = Vec3::new(
-            convert(pos.x as f32, scaled_width as f32, GAME_WIDTH as f32),
-            convert(pos.y as f32, scaled_height, GAME_HEIGHT as f32),
+            convert(pos.x as f32, scaled_width, MAZE_WIDTH as f32),
+            convert(pos.y as f32, scaled_height, MAZE_HEIGHT as f32),
             0.0,
         );
     }
+}
+
+fn calc_scaling_factor(window_width: f32, window_height: f32) -> f32 {
+    let height = window_height - UI_HEIGHT as f32;
+    let scaling_factor_x = window_width / MAZE_WIDTH as f32;
+    let scaling_factor_y = height / MAZE_HEIGHT as f32;
+    let scaled_height = MAZE_HEIGHT as f32 * scaling_factor_x;
+    if scaled_height > height { scaling_factor_y } else { scaling_factor_x }
 }
