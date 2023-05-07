@@ -10,12 +10,6 @@ use super::collision::*;
 pub const UNIT_SIZE: u32 = 100;
 
 #[derive(Component)]
-pub struct UnitName(pub String);
-
-//#[derive(Component)]
-//pub struct UnitColor(String);
-
-#[derive(Component)]
 pub struct UnitScale {
     pub width: f32,
     pub height: f32,
@@ -44,16 +38,6 @@ impl UnitPosition {
         };
 
         teleport_tunnel(self);
-    }
-
-    pub fn move_in_direction_with_value(&mut self, direction: UnitDirection, value: i32) {
-        match direction {
-            UnitDirection::Left => self.x -= value,
-            UnitDirection::Right => self.x += value,
-            UnitDirection::Up => self.y += value,
-            UnitDirection::Down => self.y -= value,
-            _ => {}
-        };
     }
 
     pub fn to_vec3(&self) -> Vec3 {

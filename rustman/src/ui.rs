@@ -15,7 +15,12 @@ impl Plugin for UiPlugin {
     fn build(&self, app: &mut App) {
         app
             .add_startup_system(setup_ui)
-            .add_system(update_ui)
+            .add_systems((
+                ui_update_status,
+                ui_update_round_text,
+                ui_update_points_text,
+                ui_update_life_text,
+            ))
         ;
     }
 }
@@ -28,6 +33,9 @@ pub struct PointsText;
 
 #[derive(Component)]
 pub struct RoundText;
+
+#[derive(Component)]
+pub struct LifesText;
 
 pub fn setup_ui(mut commands: Commands, asset_server: Res<AssetServer>) {
     // Status Text
@@ -108,17 +116,43 @@ pub fn setup_ui(mut commands: Commands, asset_server: Res<AssetServer>) {
             ..default()
         }),
         PointsText,
-    ));  
+    ));
+
+    // Lifes Text
+    commands.spawn((
+        TextBundle::from_sections([
+            TextSection::new(
+                "Lifes: ",
+                TextStyle {
+                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                    font_size: 15.0,
+                    color: Color::GRAY,
+                },
+            ),
+            TextSection::from_style(TextStyle {
+                font: asset_server.load("fonts/FiraMono-Medium.ttf"),
+                font_size: 15.0,
+                color: Color::GRAY,
+            }),
+        ])
+        .with_style(Style {
+            position_type: PositionType::Absolute,
+            position: UiRect {
+                bottom: Val::Px(40.0),
+                left: Val::Px(25.0),
+                ..default()
+            },
+            ..default()
+        }),
+        LifesText,
+    ));
 }
 
-pub fn update_ui(
-    game: Res<Game>,
+pub fn ui_update_status(
     state: Res<State<GameState>>,
-    mut q_status: Query<&mut Text, (With<StatusText>, Without<PointsText>, Without<RoundText>)>,
-    mut q_round: Query<&mut Text, (With<RoundText>, Without<PointsText>, Without<StatusText>)>,
-    mut q_points: Query<&mut Text, (With<PointsText>, Without<RoundText>, Without<StatusText>)>,
+    mut query: Query<&mut Text, With<StatusText>>,
 ) {
-    for mut text in &mut q_status {
+    if let Some(mut text) = query.iter_mut().next() {
         let status = match state.0 {
             GameState::Ready => "Ready!",
             GameState::Paused => "Paused!",
@@ -126,15 +160,32 @@ pub fn update_ui(
             _ => "",
         };
         text.sections[0].value = status.to_string();
-    } 
-
-    for mut text in &mut q_round {
-        let round = game.round;
-        text.sections[1].value = format!("{round}");
     }
+}
 
-    for mut text in &mut q_points {
-        let points = game.points;
-        text.sections[1].value = format!("{points}");
+pub fn ui_update_round_text(
+    game: Res<Game>,
+    mut query: Query<&mut Text, With<RoundText>>
+) {
+    if let Some(mut text) = query.iter_mut().next() {
+        text.sections[1].value = format!("{}", game.round);
+    }
+}
+
+pub fn ui_update_points_text(
+    game: Res<Game>,
+    mut query: Query<&mut Text, With<PointsText>>
+) {
+    if let Some(mut text) = query.iter_mut().next() {
+        text.sections[1].value = format!("{}", game.points);
+    }
+}
+
+pub fn ui_update_life_text(
+    game: Res<Game>,
+    mut query: Query<&mut Text, With<LifesText>>
+) {
+    if let Some(mut text) = query.iter_mut().next() {
+        text.sections[1].value = format!("{}", game.lifes);
     }
 }

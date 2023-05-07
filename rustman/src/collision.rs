@@ -82,7 +82,7 @@ pub fn check_in_map(x: i32, y: i32, size: u32) -> bool {
         && y - offset >= MAZE_START_Y as i32 && y + offset <= MAZE_END_Y as i32
 }
 
-fn check_in_tunnel(x: i32, y: i32) -> bool {
+fn check_in_tunnel(y: i32) -> bool {
     y == TUNNEL_Y
 }
 
@@ -96,7 +96,7 @@ pub fn check_for_collisions(x: i32, y: i32, size: u32) -> bool {
 }
 
 pub fn unit_can_move(pos: &UnitPosition) -> bool {
-    (check_in_map(pos.x, pos.y, UNIT_SIZE) || check_in_tunnel(pos.x, pos.y))
+    (check_in_map(pos.x, pos.y, UNIT_SIZE) || check_in_tunnel(pos.y))
         && !check_for_collisions(pos.x, pos.y, UNIT_SIZE)
 }
 

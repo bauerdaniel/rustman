@@ -10,6 +10,8 @@ use super::game_state::*;
 use super::ghosts::*;
 
 const PACMAN_SPEED: f32 = 400.;
+const PACMAN_START_X: i32 = 1380;
+const PACMAN_START_Y: i32 = 150;
 
 pub struct PacmanPlugin;
 
@@ -34,6 +36,7 @@ pub enum PacmanState {
     #[default]
     Normal,
     Energized,
+    Dead,
 }
 
 #[derive(Component)]
@@ -47,49 +50,77 @@ pub struct Pacman {
     pub sound_play_count: u32,
 }
 
+impl Pacman {
+    pub fn new() -> Self {
+        Self {
+            current_direction: UnitDirection::Left,
+            next_direction: UnitDirection::Left,
+            eaten_points: 0,
+            eaten_ghosts: 0,
+            animation_count: 0,
+            start_time_energized: 0.,
+            sound_play_count: 0,
+        }
+    }
+}
+
+fn load_pacman_sprite(
+    asset_server: Res<AssetServer>,
+    mut texture_atlases: ResMut<Assets<TextureAtlas>>,
+) -> SpriteSheetBundle {
+
+    let texture_atlas = TextureAtlas::from_grid(
+        asset_server.load("sprites/pacman.png"),
+        Vec2::new(UNIT_SIZE as f32, UNIT_SIZE as f32),
+        3,
+        1,
+        None,
+        None
+    );
+
+    SpriteSheetBundle {
+        texture_atlas: texture_atlases.add(texture_atlas),
+        sprite: TextureAtlasSprite::new(0),
+        ..default()
+    }
+}
+
 pub fn spawn_pacman(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
-    mut texture_atlases: ResMut<Assets<TextureAtlas>>,
+    texture_atlases: ResMut<Assets<TextureAtlas>>,
 ) {
-
-    let texture_handle = asset_server.load("sprites/pacman.png");
-    let texture_atlas = TextureAtlas::from_grid(
-        texture_handle, Vec2::new(UNIT_SIZE as f32, UNIT_SIZE as f32), 3, 1, None, None);
-    let texture_atlas_handle = texture_atlases.add(texture_atlas);
-
     commands
         .spawn((
-            Pacman {
-                current_direction: UnitDirection::Left,
-                next_direction: UnitDirection::Left,
-                eaten_points: 0,
-                eaten_ghosts: 0,
-                animation_count: 0,
-                start_time_energized: 0.,
-                sound_play_count: 0,
-            },
-            UnitName("Pacman".to_string()),
-            UnitPosition { x: 1380, y: 150 },
+            Pacman::new(),
+            UnitPosition { x: PACMAN_START_X, y: PACMAN_START_Y },
             UnitScale::square(0.95),
-            SpriteSheetBundle {
-                texture_atlas: texture_atlas_handle,
-                sprite: TextureAtlasSprite::new(0),
-                ..default()
-            },
+            load_pacman_sprite(asset_server, texture_atlases),
         ));
 }
 
-pub fn pacman_movement_input(keyboard_input: Res<Input<KeyCode>>, mut q: Query<&mut Pacman>) {
-    if let Some(mut pacman) = q.iter_mut().next() {  
-        if keyboard_input.pressed(KeyCode::Left) {
-            pacman.next_direction = UnitDirection::Left
-        } else if keyboard_input.pressed(KeyCode::Down) {
-            pacman.next_direction = UnitDirection::Down
-        } else if keyboard_input.pressed(KeyCode::Up) {
-            pacman.next_direction = UnitDirection::Up
-        } else if keyboard_input.pressed(KeyCode::Right) {
-            pacman.next_direction = UnitDirection::Right
+pub fn despawn_pacman(
+    mut commands: Commands,
+    mut query_pacman: Query<Entity, With<Pacman>>,
+) {
+    if let Some(pacman_entity) = query_pacman.iter_mut().next() {
+        commands.entity(pacman_entity).despawn();
+    }
+}
+
+pub fn pacman_movement_input(
+    keys: Res<Input<KeyCode>>,
+    mut query_pacman: Query<&mut Pacman>
+) {
+    if let Some(mut pac) = query_pacman.iter_mut().next() {  
+        if keys.pressed(KeyCode::Left) {
+            pac.next_direction = UnitDirection::Left
+        } else if keys.pressed(KeyCode::Down) {
+            pac.next_direction = UnitDirection::Down
+        } else if keys.pressed(KeyCode::Up) {
+            pac.next_direction = UnitDirection::Up
+        } else if keys.pressed(KeyCode::Right) {
+            pac.next_direction = UnitDirection::Right
         };
     }
 }
@@ -105,7 +136,7 @@ pub fn pacman_movement(
         transform: &mut Mut<Transform>,
     ) {
         pacman.animation_count += 1;
-        if pacman.animation_count % 30 != 0 { return; }
+        if pacman.animation_count % 25 != 0 { return; }
         sprite.index = if sprite.index == 2 { 0 } else { sprite.index + 1 };
 
         transform.rotation = Quat::from_rotation_z(

@@ -10,6 +10,7 @@ pub enum GameState {
     Ready,
     Running,
     Paused,
+    Reset,
     GameOver,
 }
 
@@ -22,12 +23,8 @@ impl Plugin for GameStatePlugin {
             .add_system(pause_input)
             .add_systems((
                 play_start_music,
-                on_game_state_start,
             ).in_schedule(OnEnter(GameState::Ready)))
             .add_system(switch_state_to_running.in_set(OnUpdate(GameState::Ready)))
-            .add_systems((
-                on_game_state_running,
-            ).in_schedule(OnEnter(GameState::Running)))
         ;
     }
 }
@@ -40,15 +37,6 @@ fn switch_state_to_running(
         next_state.set(GameState::Running);
     }
 }
-
-fn on_game_state_start() {
-    print!("Game Ready State");
-}
-
-fn on_game_state_running() {
-    print!("Game Running State");
-}
-
 
 fn play_start_music(
     asset_server: Res<AssetServer>,

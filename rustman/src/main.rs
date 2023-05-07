@@ -6,7 +6,6 @@ mod collision;
 mod game_state;
 mod game;
 mod ghosts;
-mod interactions;
 mod maze;
 mod pacman;
 mod scaling;
