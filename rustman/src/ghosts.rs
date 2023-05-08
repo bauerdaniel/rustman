@@ -7,6 +7,7 @@ use bevy::prelude::*;
 use super::collision::*;
 use super::game_state::*;
 use super::game::*;
+use super::pacman::*;
 use super::unit::*;
 
 const GHOST_SPEED_NORMAL: f32 = 400.;
@@ -21,7 +22,6 @@ pub enum GhostId {
     Inky,
     Clyde,
     Frightened,
-    #[allow(dead_code)]
     FrightenedBlink,
 }
 
@@ -72,11 +72,11 @@ impl Plugin for GhostsPlugin {
 pub struct Ghost {
     pub ghost_id: GhostId,
     pub current_direction: UnitDirection,
-    pub animation_count: usize,
     pub spawn_time: f32,
     pub is_moved_out: bool,
     pub is_frightened: bool,
     pub movement_time: f32,
+    pub animation_time: f32,
 }
 
 impl Ghost {
@@ -84,11 +84,11 @@ impl Ghost {
         Self {
             ghost_id,
             current_direction: UnitDirection::random(),
-            animation_count: 0,
             spawn_time,
             is_moved_out: false,
             is_frightened: false,
             movement_time: 0.,
+            animation_time: 0.,
         }
     }
 }
@@ -103,7 +103,7 @@ fn load_ghost_sprite(
         asset_server.load("sprites/ghosts.png"),
         Vec2::new(UNIT_SIZE as f32, UNIT_SIZE as f32),
         2,
-        5,
+        6,
         None,
         None
     );
@@ -221,19 +221,34 @@ pub fn move_ghosts_out(
 
 pub fn animate_ghosts(
     mut query_ghosts: Query<(&mut Ghost, &mut TextureAtlasSprite)>,
+    query_pacman: Query<&Pacman>,
+    time: Res<Time>,
 ) {
     for (mut ghost, mut sprite) in query_ghosts.iter_mut() {
-        sprite.index = if !ghost.is_frightened {
-            ghost.ghost_id.get_sprite_index() + sprite.index % 2
-        } else {
-            GhostId::Frightened.get_sprite_index() + sprite.index % 2
-        };
-
-        // Update sprite index
-        ghost.animation_count += 1;
-        if ghost.animation_count % 30 == 0 { 
+        // Animate sprite
+        let elapsed = time.elapsed_seconds() - ghost.animation_time;
+        if elapsed >= 0.5 {
             if sprite.index % 2 == 0 { sprite.index += 1; } else { sprite.index -= 1; }
-            ghost.animation_count = 0;
+            ghost.animation_time = time.elapsed_seconds();
+        }
+        let offset = sprite.index % 2;
+
+        // Frightened ghost sprite & blinking ghost
+        if ghost.is_frightened {
+            if let Some(pacman) = query_pacman.iter().next() {
+                let elapsed_energized = time.elapsed_seconds() - pacman.start_time_energized;
+                if (elapsed_energized >= 7.6 && elapsed_energized < 7.8)
+                    || (elapsed_energized >= 7.2 && elapsed_energized < 7.4)
+                    || (elapsed_energized >= 6.8 && elapsed_energized < 7.0)
+                    || (elapsed_energized >= 6.4 && elapsed_energized < 6.6)
+                    || (elapsed_energized >= 6.0 && elapsed_energized < 6.2) {
+                    sprite.index = GhostId::FrightenedBlink.get_sprite_index() + offset;
+                } else {
+                    sprite.index = GhostId::Frightened.get_sprite_index() + offset;
+                }
+            }
+        } else {
+            sprite.index = ghost.ghost_id.get_sprite_index() + offset;
         }
     }
 }

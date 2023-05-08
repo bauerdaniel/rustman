@@ -11,13 +11,13 @@ use super::pacman::*;
 use super::ghosts::*;
 use super::unit::*;
 
-const SOUND_DURATION_START: f32 = 5.;
-const SOUND_DURATION_AMBIENT_SIREN: f32 = 0.45;
-const SOUND_DURATION_AMBIENT_FRIGHT: f32 = 0.55;
+const DURATION_SOUND_START: f32 = 5.;
+const DURATION_SOUND_AMBIENT_SIREN: f32 = 0.45;
+const DURATION_SOUND_AMBIENT_FRIGHT: f32 = 0.55;
 
 const POINTS_DOT: u32 = 10;
 const POINTS_ENERGIZER: u32 = 50;
-const POINTS_GHOST: u32 = 100;
+const POINTS_GHOST: u32 = 200;
 
 pub struct GamePlugin;
 
@@ -115,7 +115,7 @@ fn switch_state_to_running(
     mut next_state: ResMut<NextState<GameState>>,
     time: Res<Time>,
 ) {
-    if time.elapsed_seconds() - game.elapsed_time_state > SOUND_DURATION_START {
+    if time.elapsed_seconds() - game.elapsed_time_state > DURATION_SOUND_START {
         game.elapsed_time_state = time.elapsed_seconds();
         next_state.set(GameState::Running);
     }
@@ -179,9 +179,7 @@ pub fn pacman_eats_energizer(
 
                 // Mark ghosts as frightened
                 for mut ghost in query_ghosts.iter_mut() {
-                    if ghost.is_moved_out {
-                        ghost.is_frightened = true;
-                    }
+                    ghost.is_frightened = true;
                 }
             }
         }
@@ -257,9 +255,10 @@ pub fn round_complete(
     mut game: ResMut<Game>,
     mut next_game_state: ResMut<NextState<GameState>>,
     query_dot: Query<&Dot>,
+    query_energizer: Query<&Energizer>,
     time: Res<Time>,
 ) {
-    if query_dot.is_empty() {
+    if query_dot.is_empty() && query_energizer.is_empty() {
         game.elapsed_time_state = time.elapsed_seconds();
         next_game_state.set(GameState::NewRound);
         game.round += 1;
@@ -274,10 +273,10 @@ pub fn play_ambient_sound(
     time: Res<Time>,
 ) {
     let elapsed = time.elapsed_seconds() - game.elapsed_time_sound;
-    if elapsed >= SOUND_DURATION_AMBIENT_FRIGHT && pacman_state.0 == PacmanState::Energized {
+    if elapsed >= DURATION_SOUND_AMBIENT_FRIGHT && pacman_state.0 == PacmanState::Energized {
         audio.play(asset_server.load("sounds/ambient_fright.ogg"));
         game.elapsed_time_sound = time.elapsed_seconds();
-    } else if elapsed >= SOUND_DURATION_AMBIENT_SIREN && pacman_state.0 == PacmanState::Normal {
+    } else if elapsed >= DURATION_SOUND_AMBIENT_SIREN && pacman_state.0 == PacmanState::Normal {
         let ambient_index = if game.round > 4 { 4 } else { game.round };
         audio.play(asset_server.load(format!("sounds/ambient{}.ogg", ambient_index)));
         game.elapsed_time_sound = time.elapsed_seconds();

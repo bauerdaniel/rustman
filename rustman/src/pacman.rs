@@ -13,6 +13,10 @@ const PACMAN_SPEED: f32 = 450.;
 const PACMAN_START_X: i32 = 1380;
 const PACMAN_START_Y: i32 = 150;
 
+const DURATION_ENERGIZED: f32 = 8.;
+
+const TOUCH_INPUT_SENSITIVITY: f32 = 30.;
+
 pub struct PacmanPlugin;
 
 impl Plugin for PacmanPlugin {
@@ -20,6 +24,7 @@ impl Plugin for PacmanPlugin {
         app
             .add_state::<PacmanState>()
             .add_systems((
+                pacman_movement_input_touch.before(pacman_movement_input),
                 pacman_movement_input.before(pacman_movement),
                 pacman_movement,
                 pacman_energized.in_set(OnUpdate(PacmanState::Energized)),
@@ -43,7 +48,7 @@ pub struct Pacman {
     pub next_direction: UnitDirection,
     pub eaten_points: u32,
     pub eaten_ghosts: u32,
-    pub animation_count: u32,
+    pub animation_time: f32,
     pub start_time_energized: f32,
 }
 
@@ -54,7 +59,7 @@ impl Pacman {
             next_direction: UnitDirection::Left,
             eaten_points: 0,
             eaten_ghosts: 0,
-            animation_count: 0,
+            animation_time: 0.,
             start_time_energized: 0.,
         }
     }
@@ -124,6 +129,29 @@ pub fn pacman_movement_input(
     }
 }
 
+fn pacman_movement_input_touch(
+    touches: Res<Touches>,
+    mut query_pacman: Query<&mut Pacman>
+) {
+    if let Some(mut pac) = query_pacman.iter_mut().next() { 
+        for finger in touches.iter() {
+            if finger.start_position().x > finger.position().x
+                && finger.start_position().x - finger.position().x > TOUCH_INPUT_SENSITIVITY {
+                pac.next_direction = UnitDirection::Left;
+            } else if finger.start_position().x < finger.position().x
+                && finger.position().x - finger.start_position().x > TOUCH_INPUT_SENSITIVITY {
+                pac.next_direction = UnitDirection::Right;
+            } else if finger.start_position().y > finger.position().y
+                && finger.start_position().y - finger.position().y > TOUCH_INPUT_SENSITIVITY {
+                pac.next_direction = UnitDirection::Up;
+            } else if finger.start_position().y < finger.position().y
+                && finger.position().y - finger.start_position().y > TOUCH_INPUT_SENSITIVITY {
+                pac.next_direction = UnitDirection::Down;
+            }
+        }
+    }
+}
+
 pub fn pacman_movement(
     state: Res<State<GameState>>,
     mut query_pacman: Query<(&mut Pacman, &mut UnitPosition, &mut TextureAtlasSprite, &mut Transform)>,
@@ -133,9 +161,10 @@ pub fn pacman_movement(
         pacman: &mut Mut<Pacman>,
         sprite: &mut Mut<TextureAtlasSprite>,
         transform: &mut Mut<Transform>,
+        elapsed_startup: f32,
     ) {
-        pacman.animation_count += 1;
-        if pacman.animation_count % 25 != 0 { return; }
+        let elapsed = elapsed_startup - pacman.animation_time;
+        if elapsed < 0.05 { return; }
         sprite.index = if sprite.index == 2 { 0 } else { sprite.index + 1 };
 
         transform.rotation = Quat::from_rotation_z(
@@ -146,7 +175,7 @@ pub fn pacman_movement(
                 _ => f32::to_radians(0.)
         });
         
-        pacman.animation_count = 0;
+        pacman.animation_time = elapsed_startup;
     }
 
     if state.0 != GameState::Running { return; }
@@ -157,7 +186,6 @@ pub fn pacman_movement(
         mut sprite,
         mut transform,
     )) = query_pacman.iter_mut().next() {
-        // Move pacman forward
         let pixel_speed = (time.delta_seconds() * PACMAN_SPEED )as i32;
         for _ in 0..pixel_speed {
             if unit_can_move_in_direction(&pos, pacman.next_direction) {
@@ -166,7 +194,7 @@ pub fn pacman_movement(
                 break;
             }
             pos.move_in_direction(pacman.current_direction);
-            animate(&mut pacman, &mut sprite, &mut transform);
+            animate(&mut pacman, &mut sprite, &mut transform, time.elapsed_seconds());
         }
     }
 }
@@ -178,7 +206,7 @@ fn pacman_energized(
 ) {
     if let Some(pacman) = query_pacman.iter().next() {
         let elapsed_since_energized = time.elapsed_seconds() - pacman.start_time_energized;
-        if elapsed_since_energized > 10. {
+        if elapsed_since_energized > DURATION_ENERGIZED {
             next_pacman_state.set(PacmanState::Normal);
         }
     }

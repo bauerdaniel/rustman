@@ -8,7 +8,7 @@ use rand::Rng;
 use super::collision::*;
 
 pub const UNIT_SIZE: u32 = 100;
-pub const UNIT_HITBOX_SIZE: u32 = 10;
+pub const UNIT_HITBOX_SIZE: u32 = 20;
 
 #[derive(Component)]
 pub struct UnitScale {
