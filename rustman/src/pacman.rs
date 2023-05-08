@@ -9,7 +9,7 @@ use super::collision::*;
 use super::game_state::*;
 use super::ghosts::*;
 
-const PACMAN_SPEED: f32 = 400.;
+const PACMAN_SPEED: f32 = 450.;
 const PACMAN_START_X: i32 = 1380;
 const PACMAN_START_Y: i32 = 150;
 
@@ -19,11 +19,9 @@ impl Plugin for PacmanPlugin {
     fn build(&self, app: &mut App) {
         app
             .add_state::<PacmanState>()
-            //.insert_resource(FixedTime::new_from_secs(PACMAN_SPEED))
-            .add_startup_system(spawn_pacman)
             .add_systems((
                 pacman_movement_input.before(pacman_movement),
-                pacman_movement,//.in_schedule(CoreSchedule::FixedUpdate),
+                pacman_movement,
                 pacman_energized.in_set(OnUpdate(PacmanState::Energized)),
                 on_pacman_state_normal.in_schedule(OnEnter(PacmanState::Normal)),
             ))
@@ -47,7 +45,6 @@ pub struct Pacman {
     pub eaten_ghosts: u32,
     pub animation_count: u32,
     pub start_time_energized: f32,
-    pub sound_play_count: u32,
 }
 
 impl Pacman {
@@ -59,7 +56,6 @@ impl Pacman {
             eaten_ghosts: 0,
             animation_count: 0,
             start_time_energized: 0.,
-            sound_play_count: 0,
         }
     }
 }
@@ -87,6 +83,7 @@ fn load_pacman_sprite(
 
 pub fn spawn_pacman(
     mut commands: Commands,
+    mut next_pacman_state: ResMut<NextState<PacmanState>>,
     asset_server: Res<AssetServer>,
     texture_atlases: ResMut<Assets<TextureAtlas>>,
 ) {
@@ -97,6 +94,8 @@ pub fn spawn_pacman(
             UnitScale::square(0.95),
             load_pacman_sprite(asset_server, texture_atlases),
         ));
+
+    next_pacman_state.set(PacmanState::Normal);
 }
 
 pub fn despawn_pacman(
@@ -163,12 +162,7 @@ pub fn pacman_movement(
         for _ in 0..pixel_speed {
             if unit_can_move_in_direction(&pos, pacman.next_direction) {
                 pacman.current_direction = pacman.next_direction;
-                //pos.move_in_direction(pacman.current_direction);
-                //animate(pacman, sprite, transform);
-            } else if unit_can_move_in_direction(&pos, pacman.current_direction) {
-                //pos.move_in_direction(pacman.current_direction);
-                //animate(pacman, sprite, transform);
-            } else {
+            } else if !unit_can_move_in_direction(&pos, pacman.current_direction) {
                 break;
             }
             pos.move_in_direction(pacman.current_direction);
@@ -179,28 +173,21 @@ pub fn pacman_movement(
 
 fn pacman_energized(
     time: Res<Time>,
-    mut query_pacman: Query<&mut Pacman>,
+    query_pacman: Query<&Pacman>,
     mut next_pacman_state: ResMut<NextState<PacmanState>>,
-    asset_server: Res<AssetServer>,
-    audio: Res<Audio>,
 ) {
-    let mut pacman = query_pacman.single_mut();
-    
-    let elapsed_since_energized = time.elapsed_seconds() - pacman.start_time_energized;
-    
-    if elapsed_since_energized > 10. {
-        next_pacman_state.set(PacmanState::Normal);
+    if let Some(pacman) = query_pacman.iter().next() {
+        let elapsed_since_energized = time.elapsed_seconds() - pacman.start_time_energized;
+        if elapsed_since_energized > 10. {
+            next_pacman_state.set(PacmanState::Normal);
+        }
     }
-    else if elapsed_since_energized > 0.50 * pacman.sound_play_count as f32 {
-        audio.play(asset_server.load("sounds/ambient_fright.ogg"));
-        pacman.sound_play_count += 1;
-    }    
 }
 
 fn on_pacman_state_normal(
     mut query_ghosts: Query<&mut Ghost>,
 ) {
-   for mut ghost in query_ghosts.iter_mut() {
+    for mut ghost in query_ghosts.iter_mut() {
         ghost.is_frightened = false;
-   } 
+    } 
 }

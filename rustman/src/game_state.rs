@@ -7,10 +7,12 @@ use bevy::prelude::*;
 #[derive(Debug, Clone, Copy, Default, Eq, PartialEq, Hash, States)]
 pub enum GameState {
     #[default]
+    Start,
     Ready,
     Running,
     Paused,
-    Reset,
+    Respawn,
+    NewRound,
     GameOver,
 }
 
@@ -21,29 +23,8 @@ impl Plugin for GameStatePlugin {
         app
             .add_state::<GameState>()
             .add_system(pause_input)
-            .add_systems((
-                play_start_music,
-            ).in_schedule(OnEnter(GameState::Ready)))
-            .add_system(switch_state_to_running.in_set(OnUpdate(GameState::Ready)))
         ;
     }
-}
-
-fn switch_state_to_running(
-    time: Res<Time>,
-    mut next_state: ResMut<NextState<GameState>>,
-) {
-    if time.elapsed_seconds() > 5. {
-        next_state.set(GameState::Running);
-    }
-}
-
-fn play_start_music(
-    asset_server: Res<AssetServer>,
-    audio: Res<Audio>,
-) {
-    let music = asset_server.load("sounds/start.ogg");
-    audio.play(music);
 }
 
 fn pause_input(

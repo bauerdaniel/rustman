@@ -18,7 +18,6 @@ const TUNNEL_X_LEFT: i32 = 0;
 const TUNNEL_X_RIGHT: i32 = MAZE_WIDTH as i32;
 
 const OBSTACLES: [Rect; 28] = [
-    
     Rect { x: 1133, y: 100, w: 100, h: 133 }, // Spike 1
     Rect { x: 1533, y: 100, w: 100, h: 133 }, // Spike 2
     Rect { x: 2666, y: 100, w: 100, h: 200 }, // Spike 3
@@ -109,7 +108,7 @@ pub fn unit_can_move_in_direction(
     unit_can_move(&new_pos)
 }
 
-pub fn units_collide(a_pos: &UnitPosition, a_size: i32, b_pos: &UnitPosition, b_size: i32) -> bool {
+pub fn units_collide(a_pos: &UnitPosition, a_size: u32, b_pos: &UnitPosition, b_size: u32) -> bool {
     if let Some(_) = collide(
         a_pos.to_vec3(),
         Vec2 { x: a_size as f32, y: a_size as f32 },

@@ -8,6 +8,7 @@ use rand::Rng;
 use super::collision::*;
 
 pub const UNIT_SIZE: u32 = 100;
+pub const UNIT_HITBOX_SIZE: u32 = 10;
 
 #[derive(Component)]
 pub struct UnitScale {
@@ -55,7 +56,6 @@ pub enum UnitDirection {
 }
 
 impl UnitDirection {
-    #[allow(dead_code)]
     pub fn opposite(self) -> Self {
         match self {
             Self::Left => Self::Right,

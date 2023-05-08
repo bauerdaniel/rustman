@@ -6,10 +6,13 @@ use bevy::prelude::*;
 
 use super::collision::*;
 use super::game_state::*;
+use super::game::*;
 use super::unit::*;
 
 const GHOST_SPEED_NORMAL: f32 = 400.;
-const GHOST_SPEED_FRIGHTENED: f32 = 200.;
+const GHOST_SPEED_FRIGHTENED: f32 = 300.;
+const GHOST_SPEED_ROUND_INCREASE: f32 = 25.;
+const GHOST_SPEED_MAX: f32 = 500.;
 
 #[derive(Debug, Clone, Copy, Eq, PartialEq, Hash)]
 pub enum GhostId {
@@ -56,7 +59,6 @@ impl Plugin for GhostsPlugin {
     fn build(&self, app: &mut App) {
         app
             .insert_resource(FixedTime::new_from_secs(0.003))
-            .add_startup_system(spawn_ghosts)
             .add_systems((
                 move_ghosts_out.in_schedule(CoreSchedule::FixedUpdate),
                 ghosts_movement.in_set(OnUpdate(GameState::Running)),
@@ -150,6 +152,7 @@ pub fn despawn_ghosts(
 }
 
 pub fn ghosts_movement(
+    game: Res<Game>,
     mut query_ghosts: Query<(&mut Ghost, &mut UnitPosition)>,
     game_state: Res<State<GameState>>,
     time: Res<Time>,
@@ -161,14 +164,29 @@ pub fn ghosts_movement(
         if !ghost.is_moved_out || ghost.current_direction == UnitDirection::None { continue; }
 
         // Determine direction
+        let mut next_random_direction = UnitDirection::random();
+        while next_random_direction == ghost.current_direction.opposite() {
+            next_random_direction = UnitDirection::random();
+        }
+
         while !unit_can_move_in_direction(&ghost_pos, ghost.current_direction) {
             ghost.current_direction = UnitDirection::random();
         }
 
         // Move ghost forward
-        let pixel_speed = (time.delta_seconds() * if ghost.is_frightened { GHOST_SPEED_FRIGHTENED } else { GHOST_SPEED_NORMAL }) as i32;
+        let ghost_speed = if ghost.is_frightened {
+            GHOST_SPEED_FRIGHTENED
+        } else {
+            let round_speed = GHOST_SPEED_NORMAL + game.round as f32 * GHOST_SPEED_ROUND_INCREASE;
+            if round_speed > GHOST_SPEED_MAX { GHOST_SPEED_MAX } else { round_speed }
+        };
+
+        let pixel_speed = (time.delta_seconds() * ghost_speed) as i32;
         for _ in 0..pixel_speed {
-            if unit_can_move_in_direction(&ghost_pos, ghost.current_direction) {
+            if unit_can_move_in_direction(&ghost_pos, next_random_direction) {
+                ghost.current_direction = next_random_direction;
+                ghost_pos.move_in_direction(ghost.current_direction);
+            } else if unit_can_move_in_direction(&ghost_pos, ghost.current_direction) {
                 ghost_pos.move_in_direction(ghost.current_direction);
             }
         }
@@ -205,12 +223,16 @@ pub fn animate_ghosts(
     mut query_ghosts: Query<(&mut Ghost, &mut TextureAtlasSprite)>,
 ) {
     for (mut ghost, mut sprite) in query_ghosts.iter_mut() {
+        sprite.index = if !ghost.is_frightened {
+            ghost.ghost_id.get_sprite_index() + sprite.index % 2
+        } else {
+            GhostId::Frightened.get_sprite_index() + sprite.index % 2
+        };
+
         // Update sprite index
         ghost.animation_count += 1;
         if ghost.animation_count % 30 == 0 { 
-            let previous_index = sprite.index;
-            sprite.index = if !ghost.is_frightened { ghost.ghost_id.get_sprite_index() } else { GhostId::Frightened.get_sprite_index() };
-            if previous_index == sprite.index { sprite.index += 1; }
+            if sprite.index % 2 == 0 { sprite.index += 1; } else { sprite.index -= 1; }
             ghost.animation_count = 0;
         }
     }
