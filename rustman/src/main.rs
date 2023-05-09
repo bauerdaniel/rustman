@@ -3,25 +3,32 @@
 //
 
 mod collision;
-mod game_state;
+mod states;
 mod game;
 mod ghosts;
+mod input;
 mod maze;
 mod pacman;
 mod scaling;
+mod sound;
 mod ui;
 mod unit;
 
 use bevy::{
     prelude::*,
     window::PresentMode,
-    render::color::Color
+    render::color::Color,
 };
 
-use game_state::GameStatePlugin;
 use game::GamePlugin;
+use ghosts::GhostsPlugin;
+use maze::MazePlugin;
+use pacman::PacmanPlugin;
 use scaling::ScalingPlugin;
+use sound::SoundPlugin;
+use states::StatesPlugin;
 use ui::UiPlugin;
+use input::InputPlugin;
 
 fn main() {
     App::new()
@@ -39,9 +46,14 @@ fn main() {
                 }),
                 ..default()})
             .set(ImagePlugin::default_nearest()))
-        .add_plugin(GameStatePlugin)
+        .add_plugin(StatesPlugin)
         .add_plugin(GamePlugin)
+        .add_plugin(MazePlugin)
+        .add_plugin(PacmanPlugin)
+        .add_plugin(GhostsPlugin)
+        .add_plugin(InputPlugin)
         .add_plugin(ScalingPlugin)
+        .add_plugin(SoundPlugin)
         .add_plugin(UiPlugin)
         .run();
 }

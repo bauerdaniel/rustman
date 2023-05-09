@@ -4,7 +4,7 @@
 
 use bevy::prelude::*;
 
-use super::game_state::*;
+use super::states::*;
 use super::game::*;
 
 pub const UI_HEIGHT: u32 = 100;
@@ -37,7 +37,7 @@ pub struct RoundText;
 #[derive(Component)]
 pub struct LifesText;
 
-pub fn setup_ui(mut commands: Commands, asset_server: Res<AssetServer>) {
+fn setup_ui(mut commands: Commands, asset_server: Res<AssetServer>) {
     // Status Text
     commands.spawn((
         TextBundle::from_sections([
@@ -148,7 +148,7 @@ pub fn setup_ui(mut commands: Commands, asset_server: Res<AssetServer>) {
     ));
 }
 
-pub fn ui_update_status(
+fn ui_update_status(
     state: Res<State<GameState>>,
     mut query: Query<&mut Text, With<StatusText>>,
 ) {
@@ -163,7 +163,7 @@ pub fn ui_update_status(
     }
 }
 
-pub fn ui_update_round_text(
+fn ui_update_round_text(
     game: Res<Game>,
     mut query: Query<&mut Text, With<RoundText>>
 ) {
@@ -172,7 +172,7 @@ pub fn ui_update_round_text(
     }
 }
 
-pub fn ui_update_points_text(
+fn ui_update_points_text(
     game: Res<Game>,
     mut query: Query<&mut Text, With<PointsText>>
 ) {
@@ -181,7 +181,7 @@ pub fn ui_update_points_text(
     }
 }
 
-pub fn ui_update_life_text(
+fn ui_update_life_text(
     game: Res<Game>,
     mut query: Query<&mut Text, With<LifesText>>
 ) {

@@ -5,15 +5,63 @@
 use bevy::prelude::*;
 
 use super::collision::*;
-use super::game_state::*;
 use super::game::*;
 use super::pacman::*;
+use super::states::*;
 use super::unit::*;
 
 const GHOST_SPEED_NORMAL: f32 = 400.;
 const GHOST_SPEED_FRIGHTENED: f32 = 300.;
 const GHOST_SPEED_ROUND_INCREASE: f32 = 25.;
 const GHOST_SPEED_MAX: f32 = 500.;
+
+pub struct GhostsPlugin;
+
+impl Plugin for GhostsPlugin {
+    fn build(&self, app: &mut App) {
+        app
+            .insert_resource(FixedTime::new_from_secs(0.003))
+
+            // New Round State
+            .add_systems((
+                despawn_ghosts
+                    .in_schedule(OnEnter(GameState::NewRound)),
+                spawn_ghosts
+                    .in_schedule(OnEnter(GameState::NewRound))
+                    .after(despawn_ghosts),
+            ))
+
+            // Running State
+            .add_systems((
+                move_ghosts_out
+                    .in_schedule(CoreSchedule::FixedUpdate),
+                ghosts_movement
+                    .in_set(OnUpdate(GameState::Running)),
+                animate_ghosts,
+                ghost_eats_pacman
+                    .in_set(OnUpdate(GameState::Running)),
+            ))
+
+            // Round Won State
+            .add_systems((
+                despawn_ghosts
+                    .in_schedule(OnEnter(GameState::RoundWon)),
+            ))
+
+            // Respawn State
+            .add_systems((
+                spawn_ghosts
+                    .in_schedule(OnEnter(GameState::Respawn)),
+            ))
+
+            // Pacman States
+            .add_systems((
+                despawn_ghosts
+                    .in_schedule(OnEnter(PacmanState::Dead)),
+            ))
+        ;
+    }
+}
 
 #[derive(Debug, Clone, Copy, Eq, PartialEq, Hash)]
 pub enum GhostId {
@@ -53,21 +101,6 @@ impl GhostId {
     }
 }
 
-pub struct GhostsPlugin;
-
-impl Plugin for GhostsPlugin {
-    fn build(&self, app: &mut App) {
-        app
-            .insert_resource(FixedTime::new_from_secs(0.003))
-            .add_systems((
-                move_ghosts_out.in_schedule(CoreSchedule::FixedUpdate),
-                ghosts_movement.in_set(OnUpdate(GameState::Running)),
-                animate_ghosts,
-            ))
-        ;
-    }
-}
-
 #[derive(Component)]
 pub struct Ghost {
     pub ghost_id: GhostId,
@@ -91,6 +124,12 @@ impl Ghost {
             animation_time: 0.,
         }
     }
+
+    pub fn reset(&mut self, spawn_time: f32) {
+        self.is_moved_out = false;
+        self.is_frightened = false;
+        self.spawn_time = spawn_time;
+    }
 }
 
 fn load_ghost_sprite(
@@ -98,7 +137,6 @@ fn load_ghost_sprite(
     asset_server: &Res<AssetServer>,
     texture_atlases: &mut ResMut<Assets<TextureAtlas>>,
 ) -> SpriteSheetBundle {
-
     let texture_atlas = TextureAtlas::from_grid(
         asset_server.load("sprites/ghosts.png"),
         Vec2::new(UNIT_SIZE as f32, UNIT_SIZE as f32),
@@ -160,20 +198,21 @@ pub fn ghosts_movement(
     if game_state.0 != GameState::Running { return; }
 
     for (mut ghost, mut ghost_pos) in query_ghosts.iter_mut() {
-        
+        // Do not move ghost if it is not moved out or has no direction
         if !ghost.is_moved_out || ghost.current_direction == UnitDirection::None { continue; }
 
-        // Determine direction
+        // Select a random next direction which is not the opposite of the current direction
         let mut next_random_direction = UnitDirection::random();
         while next_random_direction == ghost.current_direction.opposite() {
             next_random_direction = UnitDirection::random();
         }
 
+        // Select a random valid current direction if the last current direction is not valid anymore
         while !unit_can_move_in_direction(&ghost_pos, ghost.current_direction) {
             ghost.current_direction = UnitDirection::random();
         }
 
-        // Move ghost forward
+        // Calculate ghost speed
         let ghost_speed = if ghost.is_frightened {
             GHOST_SPEED_FRIGHTENED
         } else {
@@ -181,12 +220,15 @@ pub fn ghosts_movement(
             if round_speed > GHOST_SPEED_MAX { GHOST_SPEED_MAX } else { round_speed }
         };
 
+        // Move ghost forward
         let pixel_speed = (time.delta_seconds() * ghost_speed) as i32;
         for _ in 0..pixel_speed {
             if unit_can_move_in_direction(&ghost_pos, next_random_direction) {
+                // Try taking the next direction
                 ghost.current_direction = next_random_direction;
                 ghost_pos.move_in_direction(ghost.current_direction);
             } else if unit_can_move_in_direction(&ghost_pos, ghost.current_direction) {
+                // Else move forward in current direction
                 ghost_pos.move_in_direction(ghost.current_direction);
             }
         }
@@ -198,11 +240,12 @@ pub fn move_ghosts_out(
     time: Res<Time>,
 ) {
     for (mut ghost, mut ghost_pos) in query_ghosts.iter_mut() {
-
+        // Wait until the ghost is allowed to move out
         if ghost.spawn_time > time.elapsed_seconds() {
             continue;
         }
 
+        // Move the ghost out of the box
         if !ghost.is_moved_out {
             if ghost_pos.y < 713 {
                 ghost_pos.move_in_direction(UnitDirection::Up);
@@ -249,6 +292,20 @@ pub fn animate_ghosts(
             }
         } else {
             sprite.index = ghost.ghost_id.get_sprite_index() + offset;
+        }
+    }
+}
+
+pub fn ghost_eats_pacman(
+    mut next_pacman_state: ResMut<NextState<PacmanState>>,
+    mut query_pacman: Query<&UnitPosition, With<Pacman>>,
+    mut query_ghost: Query<(&mut Ghost, &UnitPosition)>,
+) {
+    if let Some(pac_pos) = query_pacman.iter_mut().next() {
+        for (ghost, ghost_pos) in query_ghost.iter_mut() {
+            if !ghost.is_frightened && units_collide(&pac_pos, UNIT_HITBOX_SIZE, &ghost_pos, UNIT_HITBOX_SIZE) {
+                next_pacman_state.set(PacmanState::Dead);
+            }
         }
     }
 }
